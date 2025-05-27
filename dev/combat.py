@@ -131,3 +131,36 @@ class Combat:
 
 
 
+from battle_history import save_battle_history
+from datetime import datetime
+
+
+if self.player.is_alive():
+    print("\nYou Survived Another Day")
+    print("\nThey Left Something...")
+    for enemy in enemies:
+        raw_drops = get_drops(enemy)
+        filtered = self.filter_drops_by_rarity(enemy, raw_drops)
+        for item in filtered:
+            print(f"{item.name} ({item.rarity})")
+            self.player.equip_item(item)
+
+    battle_record = {
+        "survived": True,
+        "enemies_defeated": sum(1 for e in enemies if not e.is_alive()),
+        "timestamp": datetime.now().isoformat()
+    }
+    save_battle_history(battle_record)
+
+else:
+    print("\n========= YOU DIED =========\n")
+    battle_record = {
+        "survived": False,
+        "enemies_defeated": sum(1 for e in enemies if not e.is_alive()),
+        "timestamp": datetime.now().isoformat()
+    }
+    save_battle_history(battle_record)
+
+
+
+
