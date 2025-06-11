@@ -81,5 +81,9 @@ class Mob():           # type : 'normal', 'elite', 'boss'
             self.atk = int(self.atk * 1.1)
             self.defense = int(self.defense * 1.1) 
 
+        if self.skill == "Berserker":
+            self.atk = int(self.atk*1.2)
+            self.defense += 2
+
     def __repr__(self):
         return f"<Mob name = {self.name}, hp = {self.hp}, atk = {self.atk}, def = {self.defense}, type = {self.mob_type}>"
