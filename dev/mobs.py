@@ -18,6 +18,16 @@ def Junior_Time_Warden(loop = 1) -> Mob:       # basic example of normal mob
         loop=loop
     )
 
+def Chrono_Sprinter(loop = 1) -> Mob:
+    return Mob(
+        name="Chrono Sprinter",
+        base_hp=40,
+        base_atk=10,
+        base_def=5,
+        mob_type="normal",
+        loop=loop
+    )
+
 ### ELITE TYPE ###
 
 def Senior_Time_Warden(loop = 1) -> Mob:       # basic example of elite mob
@@ -28,6 +38,18 @@ def Senior_Time_Warden(loop = 1) -> Mob:       # basic example of elite mob
         base_def=5,
         skill="Chronolock",
         skill_chance=0.25,
+        mob_type="elite",
+        loop=loop
+    )
+
+def Chrono_Juggernaut(loop = 1) -> Mob:
+    return Mob(
+        name="Chrono Juggernaut",
+        base_hp=80,
+        base_atk=10,
+        base_def=15,
+        skill="Berserker",
+        skill_chance=0.2,
         mob_type="elite",
         loop=loop
     )
@@ -56,15 +78,18 @@ def get_stage_enemies(loop, stage_number, battle_index):
         else:
             count = random.randint(1, 3)
             for _ in range(count):
-                enemies.append(Junior_Time_Warden(loop))
+                choice = random.choice([Junior_Time_Warden, Chrono_Sprinter])
+                enemies.append(choice(loop))
 
     elif stage_number == 2:
         elite_count = random.randint(1, 2)
         normal_count = random.randint(1, 3)
         for _ in range(elite_count):
-            enemies.append(Senior_Time_Warden(loop))
+            choice = random.choice([Senior_Time_Warden, Chrono_Juggernaut])
+            enemies.append(choice(loop))
         for _ in range(normal_count):
-            enemies.append(Junior_Time_Warden(loop))
+            choice = random.choice([Junior_Time_Warden, Chrono_Sprinter])
+            enemies.append(choice(loop))
 
     elif stage_number == 3:
         enemies.append(Devourer_of_Time(loop))

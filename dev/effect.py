@@ -79,6 +79,9 @@ class RegenEffect(StatusEffect):
         print(f"{target.name} regenerates {self.heal_per_turn} HP.")
         target.hp += self.heal_per_turn
 
+    def apply(self, value, category):
+        return self.heal_per_turn
+
 class StunEffect(StatusEffect):
     def __init__(self, name, duration):
         super().__init__(name, duration)
