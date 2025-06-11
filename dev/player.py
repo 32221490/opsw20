@@ -1,5 +1,5 @@
 import enum
-from typing_extensions import get_annotations
+from typing import get_type_hints as get_annotations
 from effect import *
 from dice import *
 from item import *
@@ -168,7 +168,7 @@ class Player(Character):
                 print(Fore.CYAN + "Passive: None")
 
             print(Fore.CYAN + "Active Items:")
-            active_list = [it for it in self.active_items if isinstance(it, Acitve)]
+            active_list = [it for it in self.active_items if isinstance(it, Active)]
             for slot in range(1, self.active_slots + 1):
                 if slot <= len(active_list):
                     item = active_list[slot - 1]
@@ -211,6 +211,23 @@ class Player(Character):
         elif action == "save":
             self.save_system.save_player(self, self.player_log)
             print(Fore.GREEN + "Game saved.")
+
+        elif cmd[0].lower() == "equip" and len(cmd) == 2:
+            try:
+                idx = int(cmd[1]) - 1
+                item = self.active_items[idx]
+                if isinstance(item, Passive):
+                    old = self.passive
+                    self.passive = item
+                    self.active_items[idx] = old if old else None
+                    if self.active_items[idx] is None:
+                        self.active_items.pop(idx)
+                    print(f"Equipped passive: {item.name}")
+                else:
+                    print("That item is not a Passive.")
+            except (ValueError, IndexError):
+                print("Usage: equip <active_item_number>")
+            return
 
         elif action == "quit":
             print(Fore.MAGENTA + "Exiting game.")
